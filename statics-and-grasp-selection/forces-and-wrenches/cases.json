@@ -1,0 +1,14 @@
+{
+  "mass": 1,
+  "gravity": 9.81,
+  "box": {"width": 0.06, "height": 0.08, "depth": 0.10},
+  "referenceQ": [0.02, 0, 0],
+  "slider": {"min": -0.025, "max": 0.025, "step": 0.001},
+  "presets": {
+    "centered": {"label": "Centered", "x": 0, "force": 9.81},
+    "right": {"label": "Right offset", "x": 0.02, "force": 9.81},
+    "left": {"label": "Left offset", "x": -0.02, "force": 9.81},
+    "stronger": {"label": "Stronger centered", "x": 0, "force": 12}
+  },
+  "horizontal": {"application": [-0.03, 0, 0.02], "force": [2, 0, 0]}
+}

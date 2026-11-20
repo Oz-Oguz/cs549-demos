@@ -1,0 +1,52 @@
+{
+  "schema": "b4-force-allocation-cases/1",
+  "_about": "Inputs of the force-allocation explainer. World x right, z up, +y into the drawing; moments about the box centre O, tau_y positive clockwise. All forces act on the box. Contact 1 is left, contact 2 is right; normals point inward, positive tangent is upward. Squeeze is the normal compression per finger. The cap is an illustrative screening limit, not a hardware rating.",
+  "mass": 1,
+  "gravity": 9.81,
+  "halfSpacing": 0.03,
+  "box": {"width": 0.06, "height": 0.08, "depth": 0.1},
+  "contacts": [
+    {"name": "left", "index": 1, "label": "Left (1)", "position": [-0.03, 0, 0], "normal": [1, 0, 0], "tangent": [0, 0, 1]},
+    {"name": "right", "index": 2, "label": "Right (2)", "position": [0.03, 0, 0], "normal": [-1, 0, 0], "tangent": [0, 0, 1]}
+  ],
+  "controls": {
+    "x": {"min": -0.025, "max": 0.025, "step": 0.0005, "decimals": 4, "_unit": "m, centre-of-mass offset from O, right positive"},
+    "squeeze": {"min": 0, "step": 0.01, "decimals": 2, "_unit": "N per finger; the maximum is the current cap"},
+    "mu": {"min": 0, "max": 1, "step": 0.05, "decimals": 2, "_unit": "friction coefficient"},
+    "cap": {"min": 0, "max": 25, "step": 0.5, "decimals": 1, "_unit": "N per finger, normal-force cap"}
+  },
+  "tolerance": {
+    "force": 1e-9,
+    "moment": 1e-10,
+    "match": 1e-9,
+    "_about": "Absolute tolerances in N and N m. Equality with a friction limit or with the cap counts as feasible (a limiting case without reserve); presets match by value within tolerance.match."
+  },
+  "defaultPreset": "centered",
+  "presets": {
+    "centered": {
+      "label": "Centered", "concept": "b4-internal-squeeze",
+      "x": 0, "squeeze": 12, "mu": 0.5, "cap": 15, "focus": "selected",
+      "question": "If both fingers squeeze harder, does the upward support change?"
+    },
+    "minimum": {
+      "label": "Minimum", "concept": "b4-internal-squeeze",
+      "x": 0, "squeeze": 9.81, "mu": 0.5, "cap": 15, "focus": "selected",
+      "question": "What is the least squeeze per finger that still balances the box?"
+    },
+    "offset": {
+      "label": "Offset +1 cm", "concept": "b4-offset-load",
+      "x": 0.01, "squeeze": 13.08, "mu": 0.5, "cap": 15, "focus": "contacts",
+      "question": "Which finger carries more weight, and whose limit is reached first?"
+    },
+    "over-cap": {
+      "label": "Over the cap", "concept": "b4-force-cap",
+      "x": 0.02, "squeeze": 15, "mu": 0.5, "cap": 15, "focus": "cap",
+      "question": "Can any squeeze within the cap supply enough friction?"
+    },
+    "mirror": {
+      "label": "Mirror −1 cm", "concept": "b4-offset-load",
+      "x": -0.01, "squeeze": 13.08, "mu": 0.5, "cap": 15, "focus": "contacts",
+      "question": "With the load mirrored to the left, which finger carries more?"
+    }
+  }
+}

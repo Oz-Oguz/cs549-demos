@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CS 549 — Surface normals from observed points</title>
+  <link rel="icon" href="data:," />
+  <style>
+    html, body { margin: 0; background: #fff; }
+    #boot { font: 16px/1.4 Arial, Helvetica, sans-serif; color: #17334a; padding: 24px; max-width: 44em; }
+  </style>
+  <script type="module" crossorigin src="./assets/index-B5WWSg9a.js"></script>
+</head>
+<body>
+  <p id="boot">Loading the demonstration… If this message stays, reload the page.</p>
+
+  <div id="b7-root" hidden>
+    <header id="b7-top">
+      <h1>Local surface normal</h1>
+      <nav id="b7-presets" aria-label="Prepared states">
+        <button type="button" data-preset="face" aria-pressed="false">Face</button>
+        <button type="button" data-preset="near-edge" aria-pressed="false">Near edge</button>
+        <button type="button" data-preset="sparse-noisy" aria-pressed="false">Sparse/noisy</button>
+      </nav>
+      <button type="button" id="b7-reset">Reset</button>
+    </header>
+    <p id="b7-question"></p>
+    <div id="b7-notes">
+      <p id="b7-notice" role="status" hidden></p>
+      <p id="b7-mergednote" hidden></p>
+    </div>
+
+    <main id="b7-stage">
+      <section id="b7-left">
+        <div id="b7-viewport">
+          <div id="b7-labels" aria-hidden="true"></div>
+          <p id="b7-badge"></p>
+          <p id="b7-hint">Drag to orbit the display camera. The observed data do not change.</p>
+          <svg id="b7-axes" width="84" height="76" viewBox="0 0 84 76" aria-label="World axes: x, y, z (z up)">
+            <line data-axis="x" /><line data-axis="y" /><line data-axis="z" />
+            <text data-axis-label="x">x</text><text data-axis-label="y">y</text><text data-axis-label="z">z</text>
+          </svg>
+          <p id="b7-contextnote" role="status" hidden>The 3D picture was reset by the graphics system. It returns by itself; if it does not, reload the page. The numbers on the right are still correct.</p>
+          <div id="b7-error" role="alert" hidden></div>
+        </div>
+        <ul id="b7-legend" aria-label="Legend"></ul>
+      </section>
+
+      <aside id="b7-panel" aria-label="Controls and readouts">
+        <section class="b7-block" id="b7-radius-block">
+          <div class="b7-row">
+            <label for="b7-radius">Neighborhood radius</label>
+            <output id="b7-radius-value" for="b7-radius"></output>
+          </div>
+          <div class="b7-row" id="b7-slider-row">
+            <input type="range" id="b7-radius" min="2" max="32" step="1" list="b7-radius-ticks" />
+            <label class="b7-check" for="b7-isolate"><input type="checkbox" id="b7-isolate" /> Only show neighbors</label>
+          </div>
+          <datalist id="b7-radius-ticks"></datalist>
+        </section>
+
+        <section class="b7-block" id="b7-counts" aria-live="polite">
+          <p id="b7-count-line"></p>
+          <p id="b7-cap-line"></p>
+        </section>
+
+        <section class="b7-block" id="b7-distance-block">
+          <label class="b7-check" for="b7-distance"><input type="checkbox" id="b7-distance" /> Show one point-to-plane distance</label>
+          <output id="b7-distance-line" for="b7-distance" hidden></output>
+        </section>
+
+        <div id="b7-tabs" role="tablist" aria-label="Readout pages">
+          <button type="button" role="tab" id="b7-tab-fit" aria-controls="b7-page-fit" aria-selected="true">Fit</button>
+          <button type="button" role="tab" id="b7-tab-numbers" aria-controls="b7-page-numbers" aria-selected="false">Numbers</button>
+          <button type="button" role="tab" id="b7-tab-options" aria-controls="b7-page-options" aria-selected="false">Options</button>
+        </div>
+
+        <section class="b7-page" id="b7-page-fit" role="tabpanel" aria-labelledby="b7-tab-fit" aria-live="polite">
+          <div class="b7-block" id="b7-status-block">
+            <h2 id="b7-status"></h2>
+            <p id="b7-status-detail"></p>
+          </div>
+          <div class="b7-block" id="b7-normal-block">
+            <h3>Unit normal <b>n</b> (world W)</h3>
+            <p id="b7-normal"></p>
+            <p id="b7-sign"></p>
+          </div>
+          <div class="b7-block" id="b7-reference">
+            <h3>Reference from the known box (not used by the fit)</h3>
+            <p id="b7-tilt"></p>
+            <p id="b7-faces"></p>
+          </div>
+        </section>
+
+        <section class="b7-page" id="b7-page-numbers" role="tabpanel" aria-labelledby="b7-tab-numbers" hidden>
+          <ul id="b7-numbers"></ul>
+        </section>
+
+        <section class="b7-page" id="b7-page-options" role="tabpanel" aria-labelledby="b7-tab-options" hidden>
+          <div class="b7-option">
+            <label for="b7-cap">Neighbor cap</label>
+            <select id="b7-cap">
+              <option value="30">30</option>
+              <option value="100">100</option>
+              <option value="500">500</option>
+              <option value="4000">4000</option>
+            </select>
+            <span class="b7-optnote">nearest first; ties by lower sample index</span>
+          </div>
+          <fieldset class="b7-option" id="b7-show">
+            <legend>Show</legend>
+            <label><input type="radio" name="b7-show" value="a" /> camera A samples</label>
+            <label><input type="radio" name="b7-show" value="ab" /> cameras A and B</label>
+            <label><input type="radio" name="b7-show" value="merged" /> merged, 3 mm voxels</label>
+            <span class="b7-optnote" id="b7-show-note" hidden>not drawn while “Only show neighbors” is on</span>
+          </fieldset>
+          <fieldset class="b7-option" id="b7-display">
+            <legend>Display camera</legend>
+            <label><input type="radio" name="b7-display" value="close" /> close-up</label>
+            <label><input type="radio" name="b7-display" value="neighborhood" /> neighborhood</label>
+            <label><input type="radio" name="b7-display" value="overview" /> overview with both sensor cameras</label>
+          </fieldset>
+          <div class="b7-option">
+            <label><input type="checkbox" id="b7-box" /> known box and reference readouts (teaching overlay)</label>
+          </div>
+          <div class="b7-option" id="b7-live">
+            <button type="button" id="b7-capture">Capture live</button>
+            <span class="b7-optnote">re-renders the same scene with the simulated depth cameras in this browser; Reset, a preset button or a reload returns to the saved input</span>
+          </div>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <div id="b8-root" hidden>
+    <header id="b8-top">
+      <h1>Candidate pair inspector</h1>
+      <nav id="b8-presets" aria-label="Prepared states">
+        <button type="button" data-preset="course-box" aria-pressed="false">Course box</button>
+        <button type="button" data-preset="angular-boundary" aria-pressed="false">Constructed 25° pair</button>
+      </nav>
+      <button type="button" id="b8-reset">Reset</button>
+    </header>
+    <p id="b8-question"></p>
+    <div id="b8-notes">
+      <p id="b8-notice" role="status" hidden></p>
+    </div>
+
+    <main id="b8-stage">
+      <section id="b8-left">
+        <div id="b8-viewport">
+          <div id="b8-labels" aria-hidden="true"></div>
+          <p id="b8-badge"></p>
+          <div id="b8-viewbuttons">
+            <button type="button" id="b8-cams" aria-pressed="false">Show cameras</button>
+            <button type="button" id="b8-resetview">Reset view</button>
+          </div>
+          <p id="b8-hint">Drag to orbit the display camera. The observed data do not change.</p>
+          <svg id="b8-axes" width="84" height="76" viewBox="0 0 84 76" aria-label="World axes: x, y, z (z up)">
+            <line data-axis="x" /><line data-axis="y" /><line data-axis="z" />
+            <text data-axis-label="x">x</text><text data-axis-label="y">y</text><text data-axis-label="z">z</text>
+          </svg>
+          <p id="b8-contextnote" role="status" hidden>The 3D picture was reset by the graphics system. It returns by itself; if it does not, reload the page. The numbers on the right are still correct.</p>
+          <div id="b8-error" role="alert" hidden></div>
+        </div>
+        <ul id="b8-legend" aria-label="Legend"></ul>
+      </section>
+
+      <aside id="b8-panel" aria-label="Controls and readouts">
+        <section class="b8-block" id="b8-friction">
+          <div class="b8-row">
+            <label for="b8-mu">Assumed friction <i>μ</i><sub>f</sub></label>
+            <output id="b8-mu-value" for="b8-mu"></output>
+          </div>
+          <div class="b8-row b8-slider-row">
+            <input type="range" id="b8-mu" min="0" max="100" step="1" />
+            <span id="b8-mu-chips">
+              <button type="button" data-mu="50" aria-pressed="false">0.5</button>
+              <button type="button" data-mu="40" aria-pressed="false">0.4</button>
+            </span>
+          </div>
+          <p id="b8-alpha"></p>
+          <p id="b8-range" hidden></p>
+        </section>
+
+        <div id="b8-tabs" role="tablist" aria-label="Readout pages">
+          <button type="button" role="tab" id="b8-tab-geometry" aria-controls="b8-page-geometry" aria-selected="true">1 Geometry</button>
+          <button type="button" role="tab" id="b8-tab-ranking" aria-controls="b8-page-ranking" aria-selected="false">2 Ranking</button>
+          <button type="button" role="tab" id="b8-tab-details" aria-controls="b8-page-details" aria-selected="false">Details</button>
+        </div>
+
+        <section class="b8-page" id="b8-page-geometry" role="tabpanel" aria-labelledby="b8-tab-geometry">
+          <div class="b8-block" id="b8-pairpick">
+            <button type="button" id="b8-prev" aria-label="Previous pair">◂</button>
+            <p id="b8-pairline" aria-live="polite"></p>
+            <button type="button" id="b8-next" aria-label="Next pair">▸</button>
+          </div>
+          <div class="b8-block" id="b8-tests" aria-live="polite"></div>
+          <div class="b8-block" id="b8-verdict" aria-live="polite">
+            <h2 id="b8-verdict-title"></h2>
+            <p id="b8-verdict-detail"></p>
+            <p id="b8-verdict-actions" hidden><button type="button" id="b8-showfirst">Show pair 1</button></p>
+          </div>
+          <div class="b8-block" id="b8-scorecard" hidden>
+            <h3>Pair score <i>s</i><sub>pair</sub> = alignment reward − width penalty</h3>
+            <p id="b8-scoreline"></p>
+            <p id="b8-scorenote"></p>
+          </div>
+          <p class="b8-caveat">The screen checks directions only: not a load check, a gripper pose or a lift.</p>
+        </section>
+
+        <section class="b8-page" id="b8-page-ranking" role="tabpanel" aria-labelledby="b8-tab-ranking" hidden>
+          <p id="b8-rank-verdict" aria-live="polite"></p>
+          <p class="b8-equation" id="b8-equation"></p>
+          <div id="b8-focus" role="group" aria-label="Pair shown with its normals">
+            <button type="button" data-focus="a" aria-pressed="true"></button>
+            <button type="button" data-focus="b" aria-pressed="false"></button>
+          </div>
+          <div id="b8-compare" aria-live="polite"></div>
+          <div id="b8-strip-block" hidden>
+            <svg id="b8-strip" viewBox="0 0 380 52" role="img" aria-label="The kept pairs in rank order"></svg>
+            <p id="b8-rank-note"></p>
+          </div>
+          <p id="b8-reveal-row"><button type="button" id="b8-reveal">Reveal the score terms</button></p>
+        </section>
+
+        <section class="b8-page" id="b8-page-details" role="tabpanel" aria-labelledby="b8-tab-details" hidden>
+          <ul id="b8-details"></ul>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Force allocation · CS 549</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header><div><p class="eyebrow">CS 549 · STATICS AND GRASP SELECTION</p><h1>How hard should the fingers squeeze?</h1></div><button id="reset" type="button">Reset</button></header>
+    <nav id="presets" aria-label="Prepared cases"></nav>
+    <p id="question"></p>
+    <div id="stage">
+      <div id="scene"></div>
+      <section id="results" aria-live="polite" aria-labelledby="headline">
+        <h2 id="headline"></h2>
+        <div id="row-selected" class="row"><h3 id="selected-title"></h3><p id="selected-text"></p></div>
+        <div id="row-cap" class="row"><h3 id="cap-title"></h3><p id="cap-text"></p></div>
+        <div id="row-contacts" class="row">
+          <h3>Upward friction <math aria-label="f t i"><msub><mi>f</mi><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub></math> at each contact</h3>
+          <ul id="contacts"></ul>
+          <p class="legend">Track 0–10 N: bar needed · dark tick may supply now · light tick at the cap</p>
+        </div>
+      </section>
+    </div>
+    <p id="notice" role="status" data-kind="load" hidden>Loading the explainer… If this message stays, reload the page or use the <a href="../fallback/force-allocation/centered.png">prepared still</a>.</p>
+    <div class="controls">
+      <label class="slider" for="x"><span class="name">Offset <math aria-label="x com"><msub><mi>x</mi><mi>com</mi></msub></math>, right positive</span><output id="x-value" for="x"></output><input id="x" type="range"></label>
+      <label class="slider" for="squeeze"><span class="name">Squeeze <math aria-label="f sq"><msub><mi>f</mi><mi>sq</mi></msub></math> per finger (inward normal force)</span><output id="squeeze-value" for="squeeze"></output><input id="squeeze" type="range"></label>
+      <button id="use-minimum" class="primary" type="button">Use minimum</button>
+      <details id="secondary"><summary>Friction and cap</summary>
+        <label class="slider inline" for="mu"><span class="name">Friction <math aria-label="mu f"><msub><mi>μ</mi><mi mathvariant="normal">f</mi></msub></math></span><output id="mu-value" for="mu"></output><input id="mu" type="range"></label>
+        <label class="slider inline" for="cap"><span class="name">Cap per finger</span><output id="cap-value" for="cap"></output><input id="cap" type="range"></label>
+      </details>
+    </div>
+    <footer>Fixed contacts; static balance only, no motion predicted · the cap is illustrative, not a hardware rating · <a id="still" href="../fallback/force-allocation/centered.png">Prepared still (Centered)</a></footer>
+    <noscript>This explainer needs JavaScript. Use the <a href="../fallback/force-allocation/centered.png">prepared still</a>.</noscript>
+  </main>
+  
+  <script>setTimeout(function () { if (!window.b4) document.getElementById('notice').hidden = false; }, 1500);</script>
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>

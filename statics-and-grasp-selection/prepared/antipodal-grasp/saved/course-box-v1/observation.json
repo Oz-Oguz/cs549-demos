@@ -1,0 +1,303 @@
+{
+ "schema": "cs549.observation/1",
+ "id": "course-box-v1",
+ "description": "Depth images of the course box from the app's two simulated depth cameras. Simulated, not measured.",
+ "frame": {
+  "name": "W",
+  "handedness": "right",
+  "up": "+z",
+  "units": "m",
+  "origin": "centre of the box"
+ },
+ "scene": {
+  "box": {
+   "size": [
+    0.06,
+    0.1,
+    0.08
+   ],
+   "center": [
+    0,
+    0,
+    0
+   ]
+  },
+  "table": {
+   "topZ": -0.04,
+   "halfExtent": 0.3,
+   "thickness": 0.02
+  }
+ },
+ "depthFormat": {
+  "dtype": "float32",
+  "byteOrder": "little-endian",
+  "layout": "row-major, top row first, width*height values",
+  "units": "m",
+  "meaning": "optical-axis depth at the pixel centre (not ray length)",
+  "invalid": 0
+ },
+ "cameraConvention": "Camera frame C: +x right, +y down, +z forward. p_W = R_WC p_C + t_WC. Pixel (u, v) has its centre at (u + 0.5, v + 0.5); p_C = z [(u + 0.5 - cx)/fx, (v + 0.5 - cy)/fy, 1].",
+ "cameras": [
+  {
+   "id": "A",
+   "position": [
+    0.16,
+    -0.12,
+    0.18
+   ],
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "verticalFovDeg": 60,
+   "width": 320,
+   "height": 240,
+   "near": 0.05,
+   "far": 1,
+   "fx": 207.84609690826528,
+   "fy": 207.84609690826528,
+   "cx": 160,
+   "cy": 120,
+   "rotationWC": [
+    0.6,
+    0.5351717852979597,
+    -0.5946353169977331,
+    0.7999999999999999,
+    -0.4013788389734698,
+    0.44597648774829984,
+    0,
+    -0.7432941462471663,
+    -0.6689647316224497
+   ],
+   "translationWC": [
+    0.16,
+    -0.12,
+    0.18
+   ]
+  },
+  {
+   "id": "B",
+   "position": [
+    -0.16,
+    0.12,
+    0.18
+   ],
+   "target": [
+    0,
+    0,
+    0
+   ],
+   "up": [
+    0,
+    0,
+    1
+   ],
+   "verticalFovDeg": 60,
+   "width": 320,
+   "height": 240,
+   "near": 0.05,
+   "far": 1,
+   "fx": 207.84609690826528,
+   "fy": 207.84609690826528,
+   "cx": 160,
+   "cy": 120,
+   "rotationWC": [
+    -0.6,
+    -0.5351717852979597,
+    0.5946353169977331,
+    -0.7999999999999999,
+    0.4013788389734698,
+    -0.44597648774829984,
+    0,
+    -0.7432941462471663,
+    -0.6689647316224497
+   ],
+   "translationWC": [
+    -0.16,
+    0.12,
+    0.18
+   ]
+  }
+ ],
+ "crop": {
+  "min": [
+   -0.05,
+   -0.07,
+   -0.032
+  ],
+  "max": [
+   0.05,
+   0.07,
+   0.06
+  ]
+ },
+ "processing": {
+  "normalRadius": 0.006,
+  "normalCap": 128,
+  "fitThresholds": {
+   "minSamples": 3,
+   "coincidentRms": 1e-7,
+   "collinearRatio": 0.01,
+   "minSamplesForFlatness": 6,
+   "ambiguityRatio": 0.25
+  },
+  "minViewCosine": 0.05,
+  "voxelSize": 0.003,
+  "voxelRule": "cell index k = floor(p/voxelSize + 0.5) per axis; cells are centred on integer multiples of voxelSize",
+  "minMeanNormalLength": 0.9,
+  "covarianceNormalisation": "1/N",
+  "neighborRule": "distance <= radius (inclusive, query included); if more than cap, the cap nearest; ties by lower sample index",
+  "queryRule": "among candidate pixels of the preset camera whose clean sample is inside the crop, the one whose clean sample is nearest to the target; ties by lower pixel index; sparse/noisy candidates are the kept pixels"
+ },
+ "variants": {
+  "clean": {
+   "label": "Clean",
+   "description": "Depth images as captured by the simulated depth cameras.",
+   "files": {
+    "A": {
+     "file": "camera-A.depth.f32",
+     "bytes": 307200,
+     "sha256": "f8321785f883507362703ede5d9730f5d4d5238037390e1f33649b70bebae7f9",
+     "validPixels": 56930
+    },
+    "B": {
+     "file": "camera-B.depth.f32",
+     "bytes": 307200,
+     "sha256": "f8321785f883507362703ede5d9730f5d4d5238037390e1f33649b70bebae7f9",
+     "validPixels": 56930
+    }
+   }
+  },
+  "sparse-noisy": {
+   "label": "Sparse/noisy",
+   "description": "Every third pixel in each image direction, with Gaussian noise added to the optical-axis depth. One fixed draw; illustrative, not a sensor model.",
+   "files": {
+    "A": {
+     "file": "camera-A.sparse-noisy.depth.f32",
+     "bytes": 307200,
+     "sha256": "fa2d9ec13c3f5f068e9674990f5c9f3e7a86613d2a9758d5d605ecdbc5d61d1d",
+     "validPixels": 6342
+    },
+    "B": {
+     "file": "camera-B.sparse-noisy.depth.f32",
+     "bytes": 307200,
+     "sha256": "2f83a28ae139c5b2bb0164d7623b2cb5cd9a6fa7314e630a82ed7978d0436d15",
+     "validPixels": 6342
+    }
+   },
+   "derivedFrom": "clean",
+   "stride": 3,
+   "phase": 1,
+   "sigma": 0.002,
+   "seed": 549,
+   "generator": "For camera index i (A = 0, B = 1): rng = mulberry32(seed + 1000 i). Visit pixels in raster order (v outer, u inner). Keep a pixel when u mod stride = phase and v mod stride = phase; all others become 0. For each kept pixel with clean depth z > 0, draw u1 = 1 - rng(), u2 = rng(), g = sqrt(-2 ln u1) cos(2 pi u2), and store float32(z + sigma g) (0 if not positive). No numbers are drawn for dropped or invalid pixels."
+  }
+ },
+ "presets": {
+  "face": {
+   "label": "Face",
+   "variant": "clean",
+   "camera": "A",
+   "pixel": [
+    174,
+    133
+   ],
+   "target": [
+    0.03,
+    0,
+    0
+   ],
+   "targetDistance": 0.0006154237094651786,
+   "radiusMm": 12,
+   "referenceFace": "+x",
+   "referenceNormal": [
+    1,
+    0,
+    0
+   ],
+   "caption": "Query at the middle of the +x face",
+   "question": "On one flat face, does the fitted normal change when the radius grows?"
+  },
+  "near-edge": {
+   "label": "Near edge",
+   "variant": "clean",
+   "camera": "A",
+   "pixel": [
+    176,
+    117
+   ],
+   "target": [
+    0.03,
+    0,
+    0.025
+   ],
+   "targetDistance": 0.0008137191604852231,
+   "radiusMm": 12,
+   "referenceFace": "+x",
+   "referenceNormal": [
+    1,
+    0,
+    0
+   ],
+   "caption": "Query on the +x face, 15 mm below the top edge",
+   "question": "The box stays fixed. What happens to the fit when the radius reaches the top edge?"
+  },
+  "sparse-noisy": {
+   "label": "Sparse/noisy",
+   "variant": "sparse-noisy",
+   "camera": "A",
+   "pixel": [
+    175,
+    133
+   ],
+   "target": [
+    0.03,
+    0,
+    0
+   ],
+   "targetDistance": 0.001433027627904326,
+   "radiusMm": 8,
+   "referenceFace": "+x",
+   "referenceNormal": [
+    1,
+    0,
+    0
+   ],
+   "caption": "Query near the middle of the +x face; every 3rd pixel in each direction, depth noise σ = 2 mm",
+   "question": "With few, noisy samples, how much does the fit depend on the radius?"
+  }
+ },
+ "generator": {
+  "source": "the app's simulated depth cameras (three.js, WebGL), captured in headless Chrome",
+  "command": "node checks/export/export_observation.mjs",
+  "created": "2026-11-18T11:33:05.800Z",
+  "appRevision": "b41c32a47e6711ba759fc8598abf36c1f42f0153",
+  "appWorkingTreeDirty": true,
+  "appSourceDigest": "54a1de82c0f4e2d8e35c358e07e0c6e70e78abaf129a89fcebac78ec5228b575",
+  "appSourceDigestRule": "sha256 over \"path\\0sha256\\n\" of src/, index.html, vite.config.ts, tsconfig.json, package.json, package-lock.json (git ls-files -co --exclude-standard, sorted)",
+  "browser": "Chrome 157.0.8103.79 (headless)",
+  "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5, Unspecified Version)",
+  "glVendor": "Google Inc. (Apple)",
+  "three": "0.172.0",
+  "node": "v24.14.0",
+  "repeatedCaptures": 4,
+  "repeatedCapturesIdentical": true,
+  "sensorCameraModelError": 2.842170943040401e-14
+ },
+ "exports": {
+  "mergedClean": {
+   "file": "merged-clean.json",
+   "bytes": 532726,
+   "sha256": "e2924c3804e599de40e888bee77f489503011be966e79198419c5f291aeb3072",
+   "cells": 3241,
+   "cellsWithNormal": 3115,
+   "note": "Processed cloud of the clean variant (input for later candidate generation). Regenerated from the depth files by this script."
+  }
+ }
+}

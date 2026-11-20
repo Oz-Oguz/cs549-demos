@@ -1,0 +1,108 @@
+{
+  "version": 1,
+  "kind": "sam3-prepared-index",
+  "entries": [
+    {
+      "raster": {
+        "calibrationKey": "[\"A\",640,480,659.3945806691094,659.3945806691094,320,240,0.05,2,[-0.36,-0.28,0.26],[0.6139406135149206,-0.3429529190256102,0.7109572549800278,-0.7893522173763263,-0.2667411592421413,0.552966753873355,0,-0.9006844338046328,-0.43447387804335036]]",
+        "cameraId": "A",
+        "captureId": "ptg-capture-v1:separated",
+        "depthSha256": "bad8ed24b9976157fbe8b0b157c12faa685b790f73bd54cc32b3201bf1d600d7",
+        "height": 480,
+        "rgbSha256": "09481f9e09b6d15cc39170a07da3f5e6b9d3f66d425add45330ba9740f6438a9",
+        "width": 640
+      },
+      "resultId": "separated-A-initial",
+      "bundleUrl": "sam3/separated-A-initial/bundle.json",
+      "prompt": {
+        "text": "red box"
+      },
+      "seed": 549
+    },
+    {
+      "raster": {
+        "calibrationKey": "[\"B\",640,480,659.3945806691094,659.3945806691094,320,240,0.05,2,[0.36,0.28,0.26],[-0.6139406135149206,0.3429529190256102,-0.7109572549800278,0.7893522173763263,0.2667411592421413,-0.552966753873355,0,-0.9006844338046328,-0.43447387804335036]]",
+        "cameraId": "B",
+        "captureId": "ptg-capture-v1:separated",
+        "depthSha256": "bad8ed24b9976157fbe8b0b157c12faa685b790f73bd54cc32b3201bf1d600d7",
+        "height": 480,
+        "rgbSha256": "e440cb85865edc8c4747c50c28a67e74f1dfff6a7876dfc5aa759d1375e708b9",
+        "width": 640
+      },
+      "resultId": "separated-B-initial",
+      "bundleUrl": "sam3/separated-B-initial/bundle.json",
+      "prompt": {
+        "text": "red box"
+      },
+      "seed": 549
+    },
+    {
+      "raster": {
+        "calibrationKey": "[\"A\",640,480,659.3945806691094,659.3945806691094,320,240,0.05,2,[-0.36,-0.28,0.26],[0.6139406135149206,-0.3429529190256102,0.7109572549800278,-0.7893522173763263,-0.2667411592421413,0.552966753873355,0,-0.9006844338046328,-0.43447387804335036]]",
+        "cameraId": "A",
+        "captureId": "ptg-capture-v1:touching",
+        "depthSha256": "ee04d087cfaae0286c5867784940671ec90ad3b7090d3b70a04f854af18fc468",
+        "height": 480,
+        "rgbSha256": "107f248a01bfe4b05599cf254fdc9e20300d269ce573e928d408fe9c153b7c03",
+        "width": 640
+      },
+      "resultId": "touching-A-initial",
+      "bundleUrl": "sam3/touching-A-initial/bundle.json",
+      "prompt": {
+        "text": "red box"
+      },
+      "seed": 549
+    },
+    {
+      "raster": {
+        "calibrationKey": "[\"B\",640,480,659.3945806691094,659.3945806691094,320,240,0.05,2,[0.36,0.28,0.26],[-0.6139406135149206,0.3429529190256102,-0.7109572549800278,0.7893522173763263,0.2667411592421413,-0.552966753873355,0,-0.9006844338046328,-0.43447387804335036]]",
+        "cameraId": "B",
+        "captureId": "ptg-capture-v1:touching",
+        "depthSha256": "ee04d087cfaae0286c5867784940671ec90ad3b7090d3b70a04f854af18fc468",
+        "height": 480,
+        "rgbSha256": "f3e7f59cb8b88bea87663eb112a6b59ff6e1cb9a6787c500fb524ed62be539de",
+        "width": 640
+      },
+      "resultId": "touching-B-initial",
+      "bundleUrl": "sam3/touching-B-initial/bundle.json",
+      "prompt": {
+        "text": "red box"
+      },
+      "seed": 549
+    },
+    {
+      "raster": {
+        "calibrationKey": "[\"A\",640,480,659.3945806691094,659.3945806691094,320,240,0.05,2,[-0.36,-0.28,0.26],[0.6139406135149206,-0.3429529190256102,0.7109572549800278,-0.7893522173763263,-0.2667411592421413,0.552966753873355,0,-0.9006844338046328,-0.43447387804335036]]",
+        "cameraId": "A",
+        "captureId": "ptg-capture-v1:box",
+        "depthSha256": "857b6601d81573acf902865fb53804e907989d218d931ec7b2f22f6c7244967f",
+        "height": 480,
+        "rgbSha256": "0010741e08775ef1c42fddec2805c86b9d9a6200831ea2412ee5a3dbe989ce31",
+        "width": 640
+      },
+      "resultId": "box-A-initial",
+      "bundleUrl": "sam3/box-A-initial/bundle.json",
+      "prompt": {
+        "text": "red box"
+      },
+      "seed": 549
+    },
+    {
+      "raster": {
+        "calibrationKey": "[\"B\",640,480,659.3945806691094,659.3945806691094,320,240,0.05,2,[0.36,0.28,0.26],[-0.6139406135149206,0.3429529190256102,-0.7109572549800278,0.7893522173763263,0.2667411592421413,-0.552966753873355,0,-0.9006844338046328,-0.43447387804335036]]",
+        "cameraId": "B",
+        "captureId": "ptg-capture-v1:touching",
+        "depthSha256": "ee04d087cfaae0286c5867784940671ec90ad3b7090d3b70a04f854af18fc468",
+        "height": 480,
+        "rgbSha256": "f3e7f59cb8b88bea87663eb112a6b59ff6e1cb9a6787c500fb524ed62be539de",
+        "width": 640
+      },
+      "resultId": "touching-B-red-object",
+      "bundleUrl": "sam3/touching-B-red-object/bundle.json",
+      "prompt": {
+        "text": "red object"
+      },
+      "seed": 549
+    }
+  ]
+}

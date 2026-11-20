@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "kind": "sam3d-prepared-index",
+  "entries": [
+    {
+      "resultId": "box-A-seed549-derived-approximate",
+      "raster": {
+        "captureId": "ptg-capture-v1:box",
+        "cameraId": "A",
+        "width": 640,
+        "height": 480,
+        "rgbSha256": "0010741e08775ef1c42fddec2805c86b9d9a6200831ea2412ee5a3dbe989ce31",
+        "depthSha256": "857b6601d81573acf902865fb53804e907989d218d931ec7b2f22f6c7244967f",
+        "calibrationKey": "[\"A\",640,480,659.3945806691094,659.3945806691094,320,240,0.05,2,[-0.36,-0.28,0.26],[0.6139406135149206,-0.3429529190256102,0.7109572549800278,-0.7893522173763263,-0.2667411592421413,0.552966753873355,0,-0.9006844338046328,-0.43447387804335036]]"
+      },
+      "mask": {
+        "resultId": "box-A-initial",
+        "maskId": "mask-000",
+        "maskSha256": "8ea5688d234619704de36aa84b9378721a8eb392ecf60949ef54c302f3d9d496"
+      },
+      "pointmapSha256": "51545a8c94643fb8e6eb9dc173468c1f5ae6c0959079a0b3f3d9aaf885c20a3b",
+      "bundleUrl": "sam3d/box-A-seed549-derived-approximate/bundle.json",
+      "bundleSha256": "89100fe646b2257505b7c841c43658f31ea4f790e1af0770de79143e5dd92c11"
+    }
+  ]
+}

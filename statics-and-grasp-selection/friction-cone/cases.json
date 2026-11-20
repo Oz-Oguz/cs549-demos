@@ -1,0 +1,86 @@
+{
+  "schema": "friction-cone-cases/2",
+  "_about": "Inputs of the friction-cone explainer. Planar cross-sections: world x right, z up, +y into the drawing; all forces act on the box. Single view: a box at rest on a horizontal table, pushed horizontally by f_p (positive from the left face towards +x); the table's contact resultant acts at its centre of pressure x_cp = h f_p / (m g) from T, the support midpoint (moment balance about T); rest needs f_n = m g and f_t = -f_p, admissible when |f_p| <= mu_f m g. The required force is drawn at x_cp while rest is possible and, beyond the friction limit, at the limit's centre of pressure (+-mu_f h from T; T at mu_f = 0); when it lies outside the cone the contact cannot supply it and friction cannot maintain rest (no clipped arrow stands in for a physical response). Pair view: two opposed side contacts with inward normals; the solid arrow is an admissible example (f_n kept, requested f_t clipped), gravity omitted. Force ranges are exploration ranges, not hardware limits.",
+  "gravity": 9.81,
+  "pushedBox": {
+    "_about": "Single view. Wide box, low push: the centre of pressure x_cp = h f_p / (m g) stays within the base (|x_cp| <= a) for every control value (|x_cp| <= 0.015 x 15 / (0.5 x 9.81) = 0.046 m) and within mu_f h <= 0.015 m whenever friction permits rest; the tipping push a m g / h = 4 m g (at least 19.6 N) is above the sliding push mu_f m g (at most 14.7 N) and above the largest push, so sliding is the first limit throughout the controls. Moments about T; the weight acts at the centre of mass, h_com = height / 2 above the table.",
+    "width": 0.12,
+    "height": 0.04,
+    "pushHeight": 0.015,
+    "normal": [0, 1],
+    "tangent": [1, 0]
+  },
+  "halfSpacing": 0.03,
+  "box": {"width": 0.06, "height": 0.08},
+  "contacts": [
+    {"name": "left", "index": 1, "label": "Contact 1 (left)", "position": [-0.03, 0], "normal": [1, 0], "tangent": [0, 1]},
+    {"name": "right", "index": 2, "label": "Contact 2 (right)", "position": [0.03, 0], "normal": [-1, 0], "tangent": [0, 1]}
+  ],
+  "controls": {
+    "push": {"min": -15, "max": 15, "step": 0.1, "decimals": 1, "_unit": "N, horizontal push on the box; positive from the left face towards +x"},
+    "mass": {"min": 0.5, "max": 1.5, "step": 0.1, "decimals": 1, "_unit": "kg"},
+    "fn": {"min": 0, "max": 15, "step": 0.1, "decimals": 1, "_unit": "N, normal (compressive) force"},
+    "ft": {"min": -15, "max": 15, "step": 0.1, "decimals": 1, "_unit": "N, requested tangential force, upward positive"},
+    "mu": {"min": 0, "max": 1, "step": 0.01, "decimals": 2, "_unit": "friction coefficient, shared by both views"}
+  },
+  "snap": {"dragWindow": 0.25, "_about": "N: a handle drag landing within this of +-mu_f m g (mu_f m g > 0) sticks to the limit (a detent +-0.25 N, about 7 px wide); slider input snaps within half a step; zero push never snaps"},
+  "tolerance": {
+    "force": 1e-9,
+    "moment": 1e-10,
+    "match": 1e-9,
+    "_about": "Absolute tolerances in N and N m. A force whose |f_t| equals mu_f f_n within tolerance.force lies on the cone boundary; presets match by value within tolerance.match. A nonzero push within half a slider step (slider) or within snap.dragWindow N (handle drag) of the friction limit snaps to the limit exactly."
+  },
+  "views": {
+    "single": {"label": "Box on a table", "contacts": [], "components": true},
+    "pair": {"label": "Opposed pair", "contacts": [1, 2], "components": false}
+  },
+  "hidden": {
+    "_about": "Inputs of the view that is not shown: a single-view preset carries these pair contacts, a pair preset this push and mass.",
+    "push": 3,
+    "mass": 1,
+    "contacts": [[10, 0], [10, 0]]
+  },
+  "defaultPreset": "inside",
+  "presets": {
+    "inside": {
+      "view": "single", "label": "Box: comfortably supported", "concept": "b2-friction",
+      "mu": 0.5, "mass": 1, "push": 3,
+      "observation": "Rest needs 3 N of friction; the table can supply up to 4.905 N."
+    },
+    "boundary": {
+      "view": "single", "label": "Box: at the friction limit", "concept": "b2-friction",
+      "mu": 0.5, "mass": 1, "push": 4.905,
+      "observation": "|f_t| = mu_f m g = 4.905 N: at the friction limit, no reserve."
+    },
+    "outside": {
+      "view": "single", "label": "Box: beyond the limit", "concept": "b2-friction",
+      "mu": 0.5, "mass": 1, "push": 7,
+      "observation": "Rest would need 7 N of friction, more than 4.905 N: friction cannot maintain rest."
+    },
+    "squeeze": {
+      "view": "pair", "label": "Pair: internal squeeze", "concept": "b3-closure",
+      "mu": 0.5, "contacts": [[10, 0], [10, 0]],
+      "observation": "Zero resultant wrench."
+    },
+    "upward": {
+      "view": "pair", "label": "Pair: upward force", "concept": "b3-closure",
+      "mu": 0.5, "contacts": [[10, 3], [10, 3]],
+      "observation": "f_z = 6 N; zero moment."
+    },
+    "clockwise": {
+      "view": "pair", "label": "Pair: clockwise couple", "concept": "b3-closure",
+      "mu": 0.5, "contacts": [[10, 3], [10, -3]],
+      "observation": "tau_y = 0.18 N m; zero resultant force."
+    },
+    "counterclockwise": {
+      "view": "pair", "label": "Pair: counterclockwise couple", "concept": "b3-closure",
+      "mu": 0.5, "contacts": [[10, -3], [10, 3]],
+      "observation": "tau_y = -0.18 N m."
+    },
+    "horizontal": {
+      "view": "pair", "label": "Pair: horizontal force", "concept": "b3-closure",
+      "mu": 0.5, "contacts": [[12, 0], [8, 0]],
+      "observation": "f_x = 4 N; zero moment."
+    }
+  }
+}

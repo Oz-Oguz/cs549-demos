@@ -1,0 +1,24 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="icon" href="data:,">
+<title>Recorded replay · Side load +y · CS 549</title>
+<style>body{height:100vh;display:flex;flex-direction:column;margin:0;font-family:Arial,Helvetica,sans-serif;color:#17334a;background:#f8fafb}
+.bar{padding:8px 16px;font-size:14px;border-bottom:1px solid #e1e7ea;background:#fdf1ee} .bar b{color:#a6402f}
+.controls{display:flex;align-items:center;gap:10px;margin-top:6px} .controls button{font:inherit;padding:3px 12px;border:1px solid #c5d1d8;border-radius:5px;background:#fff;color:#17334a;cursor:pointer}
+.controls input{flex:1;max-width:520px;accent-color:#a6402f} .controls output{font-variant-numeric:tabular-nums;min-width:5.5em}
+.stage{flex:1;min-height:0;container-type:size;display:flex;align-items:center;justify-content:center}
+iframe{display:block;border:0;background:white;aspect-ratio:16/9;width:min(100cqw, calc(100cqh * 16 / 9));height:auto}</style></head><body>
+<div class="bar"><b>Recorded simulation replay, not a live run.</b> Side load +y: grasped at 15 N per jaw, μf = 0.50, requested squeeze 15 N per jaw, 6 N through the centre of mass along +y. Outcome: held through this test.
+Recorded at 30 frames per second; t = 0 is the held box, the test starts at 0.3 s. Force arrows 0.01 m per N; moment arcs 0.16 m per N m. The pressure-coloured patches are not part of the recording. Compare with <a href="grasp-stress-test-down-load.html">the 6 N downward load</a>.
+<div class="controls"><button id="play" type="button">Play</button><button id="restart" type="button">Restart</button>
+<input id="scrub" type="range" min="0" max="3.0000" step="0.001" value="0" aria-label="Simulation time"><output id="clock" for="scrub">0.00 s</output>
+<span>playback time = simulation time at 1×; Meshcat's own player is under Open Controls → Animations</span></div></div>
+<div class="stage"><iframe src="grasp-stress-test-side-load-scene.html" title="Recorded Meshcat replay"></iframe></div>
+<script>
+const frame = document.querySelector('iframe'), play = document.getElementById('play'), scrub = document.getElementById('scrub'), clock = document.getElementById('clock');
+const viewer = () => frame.contentWindow && frame.contentWindow.viewer;
+const animator = () => viewer() && viewer().animator;
+function show() { const a = animator(); if (!a) return; if (document.activeElement !== scrub) scrub.value = a.time; clock.textContent = a.time.toFixed(2) + ' s'; play.textContent = a.playing ? 'Pause' : 'Play'; }
+play.addEventListener('click', () => { const a = animator(); if (!a) return; if (a.playing) a.pause(); else { if (a.time >= a.duration - 1e-3) a.reset(); a.play(); } show(); });
+document.getElementById('restart').addEventListener('click', () => { const a = animator(); if (!a) return; a.reset(); viewer().set_dirty(); show(); });
+scrub.addEventListener('input', () => { const a = animator(); if (!a) return; a.pause(); const t = Number(scrub.value); a.seek(t); a.display_progress(t); viewer().set_dirty(); show(); });
+setInterval(show, 100);
+</script></body></html>

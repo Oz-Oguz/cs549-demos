@@ -1,0 +1,350 @@
+{
+  "version": 2,
+  "kind": "sam3d-reconstruction",
+  "origin": "prepared",
+  "resultId": "box-A-seed549-derived-approximate",
+  "input": {
+    "raster": {
+      "captureId": "ptg-capture-v1:box",
+      "cameraId": "A",
+      "width": 640,
+      "height": 480,
+      "rgbSha256": "0010741e08775ef1c42fddec2805c86b9d9a6200831ea2412ee5a3dbe989ce31",
+      "depthSha256": "857b6601d81573acf902865fb53804e907989d218d931ec7b2f22f6c7244967f",
+      "calibrationKey": "[\"A\",640,480,659.3945806691094,659.3945806691094,320,240,0.05,2,[-0.36,-0.28,0.26],[0.6139406135149206,-0.3429529190256102,0.7109572549800278,-0.7893522173763263,-0.2667411592421413,0.552966753873355,0,-0.9006844338046328,-0.43447387804335036]]"
+    },
+    "mask": {
+      "resultId": "box-A-initial",
+      "maskId": "mask-000",
+      "maskSha256": "8ea5688d234619704de36aa84b9378721a8eb392ecf60949ef54c302f3d9d496"
+    },
+    "pointmapSha256": "51545a8c94643fb8e6eb9dc173468c1f5ae6c0959079a0b3f3d9aaf885c20a3b",
+    "pointmapEncoding": "float32-le-hwc3-pytorch3d-metres-canonical-nan"
+  },
+  "model": {
+    "name": "sam-3d-objects",
+    "sourceRepository": "https://github.com/facebookresearch/sam-3d-objects",
+    "sourceRevision": "f91db411c50efee93d8db7aeb323885650f6f722",
+    "checkpointRepository": "facebook/sam-3d-objects",
+    "checkpointRevision": "2e73555018d2741ccd486e56c24fac41155a1dc6",
+    "checkpointFiles": [
+      {
+        "path": "slat_decoder_gs_4.ckpt",
+        "sha256": "731a0eceaa47945b52aa27f650d695b2aea9cc70945751e5609e5cb5b49f0186"
+      },
+      {
+        "path": "slat_decoder_gs.ckpt",
+        "sha256": "f8077c36a06eaf890dd93cda1937411f793dea1eb80b3dd9329f2038ba84a111"
+      },
+      {
+        "path": "slat_decoder_mesh.ckpt",
+        "sha256": "85907b37b67d8ce5b099a96629bdcfbd873eb407dee6b3aa9a75deb15038db33"
+      },
+      {
+        "path": "slat_generator.ckpt",
+        "sha256": "91529bde8e7daa12d09618a66c319e3a5a6398db6b23b958cedcb1c3f28faabb"
+      },
+      {
+        "path": "ss_decoder.ckpt",
+        "sha256": "6dac1cd7b7fda5a38e0614fadae441f1794f80e39ea2981f1ac8aff0a7e99340"
+      },
+      {
+        "path": "ss_generator.ckpt",
+        "sha256": "225f40479e4cff4f39d6fa14c55be3abad1475bf55b61af3bec1e19ed2f6c146"
+      }
+    ],
+    "auxiliaryArtifacts": [
+      {
+        "name": "MoGe ViT-L initialization",
+        "role": "depth-model",
+        "sourceRepository": "https://github.com/microsoft/MoGe",
+        "sourceRevision": "a8c37341bc0325ca99b9d57981cc3bb2bd3e255b",
+        "weights": [
+          {
+            "sha256": "da96b09a0485a3c45a5aa455e67743c8b4efc4dd8437c1f2aa93c2b4303d957f",
+            "url": "https://huggingface.co/Ruicheng/moge-vitl/resolve/ad326bfb61facd6c52b5a825bc1e34d7c97d9672/model.pt"
+          }
+        ]
+      },
+      {
+        "name": "DINOv2 ViT-L register initialization",
+        "role": "image-encoder-initialization",
+        "sourceRepository": "https://github.com/facebookresearch/dinov2",
+        "sourceRevision": "7764ea0f912e53c92e82eb78a2a1631e92725fc8",
+        "weights": [
+          {
+            "sha256": "36e4deffbaef061a2576705b0c36f93621e2ae20bf6274694821b0b492551b51",
+            "url": "https://dl.fbaipublicfiles.com/dinov2/dinov2_vitl14/dinov2_vitl14_reg4_pretrain.pth"
+          }
+        ]
+      }
+    ],
+    "configurationSha256": "d43cec0ae933e8ba669bbb8198340173b3cca6dca2b187ef0bc9d0bb190adf28",
+    "adapterSha256": "a25e3a2d3d23ecd8fce5031c75aa5392fa7215e7b9fd3b7fa8b2c06c35307f6f"
+  },
+  "seed": 549,
+  "completedAt": "2026-11-15T16:16:40.041007+00:00",
+  "mesh": {
+    "url": "derived-mesh.json",
+    "sha256": "5f8541f1e63df3c7d8318d47c8272a345a72e1b64da113cded3392436fa13431",
+    "format": "indexed-triangle-mesh-json",
+    "coordinates": "native-model",
+    "normalization": "none"
+  },
+  "worldFromMesh": {
+    "linear": [
+      0.0005346430864947003,
+      -0.10669204595051873,
+      0.000017997990553178534,
+      0.10669202878801898,
+      0.0005346536358575725,
+      0.00006304642266574518,
+      -0.00006313582034061789,
+      0.000017681834317082142,
+      0.1066933668860729
+    ],
+    "translation": [
+      0.0031274929146153266,
+      0.0031560143317861645,
+      0.03722188992950323
+    ],
+    "units": "metres"
+  },
+  "poseEvidence": {
+    "method": "native-layout-and-camera-a-rigid-registration",
+    "pointmapSha256": "51545a8c94643fb8e6eb9dc173468c1f5ae6c0959079a0b3f3d9aaf885c20a3b",
+    "calibrationKey": "[\"A\",640,480,659.3945806691094,659.3945806691094,320,240,0.05,2,[-0.36,-0.28,0.26],[0.6139406135149206,-0.3429529190256102,0.7109572549800278,-0.7893522173763263,-0.2667411592421413,0.552966753873355,0,-0.9006844338046328,-0.43447387804335036]]",
+    "nativeLayout": {
+      "rotationWxyz": [
+        0.5029572248458862,
+        0.8104435205459595,
+        0.27277669310569763,
+        0.12573100626468658
+      ],
+      "scale": [
+        0.10669338703155518,
+        0.10669338703155518,
+        0.10669338703155518
+      ],
+      "translation": [
+        -0.003649870865046978,
+        0.0010914229787886143,
+        0.5080568194389343
+      ]
+    }
+  },
+  "derivation": {
+    "kind": "reduced-exterior-camera-a-rigid",
+    "preparationSha256": "8b70a7b30106845d210616d43be3495f86db61bea2f87e924f61ad6517ee19e5",
+    "configurationSha256": "629b51a551963c5c661e040b3a247017601d35eac8e5231911ac102552aa9987",
+    "sources": [
+      {
+        "path": "worker/export_sam3d.py",
+        "sha256": "2f1829c353a3f3d3ffe0d2dc09dafe664bf122d4276361905345fc753e5faefc"
+      },
+      {
+        "path": "worker/inspect_sam3d_output.py",
+        "sha256": "979d82e1242749ff35bfe7f5519a914971376bc5485e907b39294259c49a1842"
+      },
+      {
+        "path": "worker/prepare_sam3d_geometry.py",
+        "sha256": "ca786ba220685aa79f0cd19647e733929bd453f572fe243038f03e3d7ffd3e07"
+      },
+      {
+        "path": "worker/sam3d_geometry/__init__.py",
+        "sha256": "03c827ab35dfd992301abbd8c6d5c58dec51e4ad0fe45e09574cb75f76eb8f35"
+      },
+      {
+        "path": "worker/sam3d_geometry/config.json",
+        "sha256": "629b51a551963c5c661e040b3a247017601d35eac8e5231911ac102552aa9987"
+      },
+      {
+        "path": "worker/sam3d_geometry/derive.py",
+        "sha256": "fd45d5a584cb20bd6bed0f6ea1e5a1a3aea9a931a05c0bcb661394300f3887db"
+      },
+      {
+        "path": "worker/sam3d_geometry/finalize.py",
+        "sha256": "67c0933c8d4bced3383ce1ef414cda4fb38512f6f67edc6ef005bb13ba999b5b"
+      },
+      {
+        "path": "worker/sam3d_geometry/freespace.py",
+        "sha256": "bd761b03aa1495fca1aa8d0d761ea952d561d812ecf5de83a3bd9ac83dcf5910"
+      },
+      {
+        "path": "worker/sam3d_geometry/inputs.py",
+        "sha256": "b0a3572d36e636e65c08f1119be2706f8416fd731430dabf8c46fb322f71fd76"
+      },
+      {
+        "path": "worker/sam3d_geometry/mesh.py",
+        "sha256": "718c5cfe677fbcfbdebcfeec8927afe9e43f0e0cf9c06a6a343ff48c96a156d1"
+      },
+      {
+        "path": "worker/sam3d_geometry/queries.py",
+        "sha256": "d34511277fbef5cbeb08c71b51e0cff56d9d5d40c1f0d01a358f84b731994e29"
+      },
+      {
+        "path": "worker/sam3d_geometry/registration.py",
+        "sha256": "a186d9acf23eb827540a41790abe0f7bae3a4aaa4137f91c7e1781bf24020384"
+      },
+      {
+        "path": "worker/sam3d_geometry/serialize.py",
+        "sha256": "c9f5253710ed44827ec4e169de06dc235900868ee1bd35d96325628c70b811e3"
+      },
+      {
+        "path": "worker/sam3d_geometry/transforms.py",
+        "sha256": "b7ba3dae687b4983850ec72a83900e16f7c9b1ecde5458f33c818f886440a2da"
+      },
+      {
+        "path": "checks/stage2-geometry/app_check.mjs",
+        "sha256": "afbdd4901ca1071e542cf0e14c89e0a3a9aa9f7214cf46eb1b42592b0d52ce9f"
+      },
+      {
+        "path": "src/core/geometry.ts",
+        "sha256": "f7d8c781bf249e5b2bf35e4c099750361667a2848d2f67ff9b986e842314e4fa"
+      },
+      {
+        "path": "src/core/index.ts",
+        "sha256": "e79395ad82b3d5fcba44672a2d0ee28828af67d96d500eba42fb1578bd55ad0b"
+      },
+      {
+        "path": "src/core/membership.ts",
+        "sha256": "eb830842cb73e410dd8554bdbb10fc4defc8075e7c2733c0e0ba91799fe4a92f"
+      },
+      {
+        "path": "src/core/pairs.ts",
+        "sha256": "7cc613db80145029ac381f25208e8d32b2c75b5a993392b60a0c6f8d8c7032ec"
+      },
+      {
+        "path": "src/core/types.ts",
+        "sha256": "9c7268524ba1c1f7abc2f1b574dc46793948da94992114d62aaa92ed0e36ac4e"
+      },
+      {
+        "path": "src/core/vendor/src/core/camera.ts",
+        "sha256": "38d2c707b376056e04b9915e49c0996e381b71ea255042cac3194a00dd44ac00"
+      },
+      {
+        "path": "src/core/vendor/src/core/neighbors.ts",
+        "sha256": "0c789843279dbdb4c79b097c4fa6377fd5576f391aaabe4934f8186d31d87d2c"
+      },
+      {
+        "path": "src/core/vendor/src/core/planeFit.ts",
+        "sha256": "82a91aa41532b3b240fb962fc1c87d09097a4f504cb3cbbe62032e5dbc9ef498"
+      },
+      {
+        "path": "src/core/vendor/src/core/rng.ts",
+        "sha256": "64ec090e349893d2c2aa8f94bb8fa9bb130713f0b48bb25d164c817da9814938"
+      },
+      {
+        "path": "src/core/vendor/src/grasp.ts",
+        "sha256": "bc669d1e45ef2338376bfc496cea62ffbc5330437229c60e94e5dec3ca12a40e"
+      },
+      {
+        "path": "src/core/vendor/src/math/kdtree.ts",
+        "sha256": "bb7a3d43f22d4a76868494cc23af18301f2134259e95892f5c3de70f993eea41"
+      },
+      {
+        "path": "src/core/vendor/src/math/linalg.ts",
+        "sha256": "646aa54cfa3339116231b886473f672ab1622f591d737aaf0f1c1bd7ef785b4f"
+      },
+      {
+        "path": "src/core/vendor/src/math/svd.ts",
+        "sha256": "f17c57c36f89bb6f054c5bdf8cd4d87542be91b8ffcba93cbc023ad092471fdd"
+      },
+      {
+        "path": "src/reconstruction/admission.ts",
+        "sha256": "58588092d499a3ff2154ca1967101a942d6884aeb0cebe040cd6210bb9606cdb"
+      },
+      {
+        "path": "src/reconstruction/evidence.ts",
+        "sha256": "c7c92170b1ce8848ce602869eb91eeea0911d9af47e1598a381f8fa64d2160c8"
+      },
+      {
+        "path": "src/reconstruction/index.ts",
+        "sha256": "b125a22ce764a8a6308a411a76269983e4aac73fc97f3598eabe6710ade0129c"
+      },
+      {
+        "path": "src/reconstruction/internal.ts",
+        "sha256": "ae13ab724ec7701aa7542e10772268870383215920beaabda34dc20acfe20ad2"
+      },
+      {
+        "path": "src/reconstruction/sampling.ts",
+        "sha256": "a2c85346388606cd3b0e503850a86ff22bc2e83499e04694c5bfa39aa20f41da"
+      },
+      {
+        "path": "src/reconstruction/types.ts",
+        "sha256": "0d31a62eee576750d7e769cfe5235d5a23da9141f06734dfb0c001c1f6b09d67"
+      }
+    ],
+    "original": {
+      "nativeOutputSha256": "67b153f518e2355488d491df993d973a6b6663d359cab0b2a93c19ed4e493ebe",
+      "executionSha256": "3b5c25f4e2c48fc2d962a036deb198b484f58139af5c153e2099956d6fa2363d",
+      "inputManifestSha256": "ae1ed864ec2695835c8a9f8ca4dac99febdf1fd8f46f46e250cbf69de39e43ae",
+      "worldFromNative": {
+        "linear": [
+          -0.00586160389678796,
+          -0.10651556893588521,
+          0.0018852082874506822,
+          0.10621866218506976,
+          -0.005988195125533223,
+          -0.008075652234822943,
+          0.008168000957175566,
+          0.0014331537490627488,
+          0.10637061937847478
+        ],
+        "translation": [
+          0.003821792376792754,
+          -0.0016513760015077206,
+          0.04024561107968758
+        ],
+        "units": "metres"
+      }
+    },
+    "reduction": {
+      "method": "quadric-error-decimation",
+      "implementation": "open3d",
+      "version": "0.18.0",
+      "targetTriangles": 12000,
+      "reportSha256": "42b3192e5d9e2b79aa255ff955e9c4097a186897aaf6137168abd108b92ff78a"
+    },
+    "exteriorSelection": {
+      "method": "unique-enclosing-component",
+      "reportSha256": "ef78cc23d22c053da4a5e0d664112cd6d0ce9f62120a99324b8711f3efeb291f"
+    },
+    "registration": {
+      "method": "camera-a-point-to-plane-rigid",
+      "cameraId": "A",
+      "deltaWorld": {
+        "rotation": [
+          0.998048505446368,
+          0.061100523607912356,
+          -0.012880481012280799,
+          -0.05993040458732,
+          0.995211918548357,
+          0.07721129312022687,
+          0.017536458658147572,
+          -0.07628868326387868,
+          0.9969315470099213
+        ],
+        "translation": [
+          -0.00006755848746378839,
+          0.001921109300004895,
+          -0.003093231389273573
+        ],
+        "units": "metres"
+      },
+      "pointmapSha256": "51545a8c94643fb8e6eb9dc173468c1f5ae6c0959079a0b3f3d9aaf885c20a3b",
+      "maskSha256": "8ea5688d234619704de36aa84b9378721a8eb392ecf60949ef54c302f3d9d496",
+      "calibrationKey": "[\"A\",640,480,659.3945806691094,659.3945806691094,320,240,0.05,2,[-0.36,-0.28,0.26],[0.6139406135149206,-0.3429529190256102,0.7109572549800278,-0.7893522173763263,-0.2667411592421413,0.552966753873355,0,-0.9006844338046328,-0.43447387804335036]]",
+      "iterations": 35,
+      "fitPixels": {
+        "sha256": "196244d8ffbbe14aca096013c1a957149f9bab4c225e4dc768379ffae0e7b216",
+        "count": 1024
+      },
+      "validationPixels": {
+        "sha256": "1150fd8deb19321d6498c1d4e1d2d2867e252d86cf72226e4caef0f7c6e5d5ce",
+        "count": 128
+      },
+      "reportSha256": "38a3a4c2d4b2cabc1b0e42b8fdda91ffa2c7d47290bce5768d90015ff359bba2"
+    }
+  }
+}

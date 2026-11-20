@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Forces and wrenches · CS 549</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <header><div><p class="eyebrow">CS 549 · STATICS AND GRASP SELECTION</p><h1>Can these forces hold the box?</h1></div><button id="reset" type="button">Reset</button></header>
+    <p class="intro">Moment (torque) measures a force’s turning effect about a chosen point.</p>
+    <nav id="presets" aria-label="Prepared loading cases"></nav>
+    <div id="diagram"><div id="scene"></div><aside id="readout" aria-live="polite" aria-label="Force and moment balances"></aside></div>
+    <div class="controls">
+      <label class="position" for="position">Application point <span><math aria-label="x_S"><msub><mi>x</mi><mi>S</mi></msub></math> = <output id="position-value">0</output> m</span><input id="position" type="range" min="-0.025" max="0.025" step="0.001" value="0"></label>
+      <details id="reference-options"><summary>Compare reporting points</summary><label for="reference">Moment about <select id="reference"><option value="O">O · box center</option><option value="Q">Q · 0.02 m right of O</option></select></label></details>
+      <button id="reveal" class="primary" type="button">Reveal balances</button>
+    </div>
+    <p id="notice" role="status"></p>
+    <footer>Fixed pose; no motion simulated</footer>
+    <noscript>This demonstration needs JavaScript.</noscript>
+  </main>
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>

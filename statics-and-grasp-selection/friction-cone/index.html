@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Friction cone · CS 549</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-view="single">
+  <main>
+    <header>
+      <p class="eyebrow">CS 549 · STATICS AND GRASP SELECTION</p>
+      <h1 class="single-only">Can the table supply enough friction to keep the box at rest?</h1>
+      <h1 class="pair-only">Which contact forces can friction supply?</h1>
+    </header>
+    <div id="stage">
+      <div id="scene">
+        <svg id="diagram" viewBox="0 0 700 500" role="img" aria-labelledby="fc-title fc-desc"></svg>
+        <div id="legend">
+          <span class="axes"><svg width="40" height="24" viewBox="0 0 40 24" aria-hidden="true"><path d="M4,19 H30 M4,19 V7" stroke="#566c7b" stroke-width="2" fill="none"/><path d="M30,15 L37,19 L30,23 Z M0,7 L4,0 L8,7 Z" fill="#566c7b"/></svg><i>x</i> right, <i>z</i> up, ⊗ +<i>y</i> into page</span>
+          <span class="scale"><svg id="scale-bar" height="12" aria-hidden="true"><path id="scale-bar-path" stroke="#566c7b" stroke-width="3" fill="none"/></svg> 5 N, same force scale horizontally and vertically</span>
+          <span class="key single-only" aria-label="Colour key"><i class="ochre"></i> push · <i class="navy"></i> weight · <i class="coral"></i> <math aria-label="f"><mi>f</mi></math> needed for rest · <i class="green"></i> <math aria-label="f n"><msub><mi>f</mi><mi mathvariant="normal">n</mi></msub></math>, cone, available friction · <i class="purple"></i> friction <math aria-label="f t"><msub><mi>f</mi><mi mathvariant="normal">t</mi></msub></math></span>
+        </div>
+      </div>
+      <section id="panel" aria-label="Controls and results">
+        <div class="bar">
+          <div class="views" role="group" aria-label="View">
+            <button type="button" id="view-single" data-view="single" aria-pressed="true">Box on a table</button><button type="button" id="view-pair" data-view="pair" aria-pressed="false">Opposed pair</button>
+          </div>
+          <select id="preset" aria-label="Preset"></select>
+          <button type="button" id="reset">Reset</button>
+        </div>
+        <p id="notice" role="status" hidden>Loading the explainer… If this message stays, reload the page or use the <a href="../fallback/friction-cone/inside.png">prepared still</a>.</p>
+        <div class="slider friction">
+          <label for="mu">Friction coefficient <math aria-label="mu f"><msub><mi>μ</mi><mi mathvariant="normal">f</mi></msub></math></label>
+          <span class="value" id="mu-value"></span>
+          <input type="range" id="mu">
+          <span id="alpha" class="aside"></span>
+        </div>
+        <fieldset id="box-controls">
+          <legend>Box on a table</legend>
+          <div class="slider"><label for="push">Push <math aria-label="f p"><msub><mi>f</mi><mi mathvariant="normal">p</mi></msub></math> <span class="hint">(&gt; 0 from the left)</span></label><span class="value" id="push-value"></span><input type="range" id="push"></div>
+          <div class="slider mass"><label for="mass">Mass <math aria-label="m"><mi>m</mi></math></label><span class="aside" id="mass-aside"></span><span class="value" id="mass-value"></span><input type="range" id="mass"></div>
+        </fieldset>
+        <div id="contact-controls">
+          <fieldset id="controls-1" data-contact="1">
+            <legend>Contact 1 (left)</legend>
+            <div class="slider"><label for="n1">Normal <math aria-label="f n"><msub><mi>f</mi><mi mathvariant="normal">n</mi></msub></math></label><span class="value" id="n1-value"></span><input type="range" id="n1"></div>
+            <div class="slider"><label for="t1">Requested <math aria-label="f t"><msub><mi>f</mi><mi mathvariant="normal">t</mi></msub></math></label><span class="value" id="t1-value"></span><input type="range" id="t1"></div>
+          </fieldset>
+          <fieldset id="controls-2" data-contact="2">
+            <legend>Contact 2 (right)</legend>
+            <div class="slider"><label for="n2">Normal <math aria-label="f n"><msub><mi>f</mi><mi mathvariant="normal">n</mi></msub></math></label><span class="value" id="n2-value"></span><input type="range" id="n2"></div>
+            <div class="slider"><label for="t2">Requested <math aria-label="f t"><msub><mi>f</mi><mi mathvariant="normal">t</mi></msub></math></label><span class="value" id="t2-value"></span><input type="range" id="t2"></div>
+          </fieldset>
+        </div>
+        <div class="toggle-row">
+          <label class="toggle" for="components"><input type="checkbox" id="components"> Show components <math aria-label="f n"><msub><mi>f</mi><mi mathvariant="normal">n</mi></msub></math> and <math aria-label="f t"><msub><mi>f</mi><mi mathvariant="normal">t</mi></msub></math></label>
+          <p class="signs single-only">Signs: <math aria-label="f p"><msub><mi>f</mi><mi mathvariant="normal">p</mi></msub></math>&nbsp;&gt;&nbsp;0 pushes towards +<i>x</i>; the table’s <math aria-label="f t"><msub><mi>f</mi><mi mathvariant="normal">t</mi></msub></math>&nbsp;=&nbsp;−<math aria-label="f p"><msub><mi>f</mi><mi mathvariant="normal">p</mi></msub></math> opposes it.</p>
+          <p class="signs pair-only">Signs: <math aria-label="f n"><msub><mi>f</mi><mi mathvariant="normal">n</mi></msub></math> pushes inward; <math aria-label="f t"><msub><mi>f</mi><mi mathvariant="normal">t</mi></msub></math>&nbsp;&gt;&nbsp;0 points up at both contacts.</p>
+        </div>
+        <p id="announce" class="visually-hidden" aria-live="polite"></p>
+        <div id="readout">
+          <h2 id="headline"></h2>
+          <ul id="statuses"></ul>
+          <div id="wrench" hidden>
+            <h3 id="selected-forces"></h3>
+            <div id="wrench-values"></div>
+            <p class="note">Resultant contact wrench about <i>O</i>. Gravity omitted; not an equilibrium check. <math aria-label="tau y"><msub><mi>τ</mi><mi>y</mi></msub></math>&nbsp;&gt;&nbsp;0 is clockwise.</p>
+          </div>
+          <p id="closure" hidden></p>
+        </div>
+        <p class="rules"><math aria-label="f n greater than or equal to 0"><msub><mi>f</mi><mi mathvariant="normal">n</mi></msub><mo>≥</mo><mn>0</mn></math>, <math aria-label="absolute f t at most mu f times f n"><mo lspace="0" rspace="0">|</mo><msub><mi>f</mi><mi mathvariant="normal">t</mi></msub><mo lspace="0" rspace="0">|</mo><mo>≤</mo><msub><mi>μ</mi><mi mathvariant="normal">f</mi></msub><msub><mi>f</mi><mi mathvariant="normal">n</mi></msub></math>, <math aria-label="alpha equals arctan mu f"><mi>α</mi><mo>=</mo><mi>arctan</mi><mspace width="0.25em"></mspace><msub><mi>μ</mi><mi mathvariant="normal">f</mi></msub></math><span class="single-only">; at rest <math aria-label="f n equals m g"><msub><mi>f</mi><mi mathvariant="normal">n</mi></msub><mo>=</mo><mi>m</mi><mi>g</mi></math>, <math aria-label="f t equals minus f p"><msub><mi>f</mi><mi mathvariant="normal">t</mi></msub><mo>=</mo><mo>−</mo><msub><mi>f</mi><mi mathvariant="normal">p</mi></msub></math></span></p>
+      </section>
+    </div>
+    <footer>
+      <span class="single-only">Drag the push arrow’s tail or use the sliders · analytical rest check, no motion simulated · ranges are for exploration, not hardware limits · </span>
+      <span class="pair-only">Drag a tip or use the sliders · the solid arrow is an admissible example (<math aria-label="f n"><msub><mi>f</mi><mi mathvariant="normal">n</mi></msub></math> kept, <math aria-label="f t"><msub><mi>f</mi><mi mathvariant="normal">t</mi></msub></math> clipped), not a computed contact response · gravity omitted · ranges for exploration, not hardware limits · </span><a id="still" href="../fallback/friction-cone/inside.png">Prepared still</a>
+    </footer>
+    <noscript>This explainer needs JavaScript. Use the <a href="../fallback/friction-cone/inside.png">prepared still</a>.</noscript>
+  </main>
+  
+  <script>setTimeout(function () { if (!window.fc) document.getElementById('notice').hidden = false; }, 1500);</script>
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>
